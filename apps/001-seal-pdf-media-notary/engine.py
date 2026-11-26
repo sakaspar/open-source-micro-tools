@@ -105,8 +105,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--block-size", type=int, default=4096, help="RFC 6962 Merkle block size (default: 4096)")
     args = parser.parse_args(argv)
 
+    if args.block_size < 1:
+        parser.error("--block-size must be at least 1")
+
     if args.file and args.file != "-":
-        payload = Path(args.file).read_bytes()
+        try:
+            payload = Path(args.file).read_bytes()
+        except OSError as exc:
+            parser.error(f"cannot read {args.file}: {exc.strerror}")
     else:
         if sys.stdin.isatty() and not args.file:
             parser.print_help()
@@ -120,9 +126,9 @@ def main(argv: list[str] | None = None) -> int:
     else:
         print(f"Notary Envelope Digest: {envelope['envelope_digest']}")
         print(f"Payload SHA-256:        {envelope['payload_sha256']}")
-        print(f"RFC 6962 Merkle Root:  {envelope['rfc6962_merkle_root']}")
-        print(f"Payload Size:          {envelope['payload_bytes']} bytes ({envelope['chunk_count']} chunks)")
-        print(f"Notarized At:          {envelope['notarized_at']}")
+        print(f"RFC 6962 Merkle Root:   {envelope['rfc6962_merkle_root']}")
+        print(f"Payload Size:           {envelope['payload_bytes']} bytes ({envelope['chunk_count']} chunks)")
+        print(f"Notarized At:           {envelope['notarized_at']}")
 
     return 0
 
