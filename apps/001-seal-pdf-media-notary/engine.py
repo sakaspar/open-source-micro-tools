@@ -3,9 +3,12 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
+import sys
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 # Canonical 8-state EXIF Orientation (Tag 0x0112) affine transform descriptors
@@ -90,3 +93,45 @@ def verify_notary_envelope(payload: bytes, envelope: dict[str, Any], block_size:
         f"{envelope['payload_sha256']}:{envelope['rfc6962_merkle_root']}:".encode("utf-8") + meta_canonical
     ).hexdigest()
     return expected == envelope.get("envelope_digest")
+
+
+def main(argv: list[str] | None = None) -> int:
+    """CLI entry point for notarizing documents and media streams."""
+    parser = argparse.ArgumentParser(
+        description="001-seal-pdf-media-notary: Zero-Dependency Cryptographic Media Notary & EXIF Normalizer",
+    )
+    parser.add_argument("file", nargs="?", default=None, help="Path to file to notarize (or - for stdin)")
+    parser.add_argument("--json", action="store_true", help="Output machine-readable JSON receipt on stdout")
+    parser.add_argument("--block-size", type=int, default=4096, help="RFC 6962 Merkle block size (default: 4096)")
+    args = parser.parse_args(argv)
+
+    if args.block_size < 1:
+        parser.error("--block-size must be at least 1")
+
+    if args.file and args.file != "-":
+        try:
+            payload = Path(args.file).read_bytes()
+        except OSError as exc:
+            parser.error(f"cannot read {args.file}: {exc.strerror}")
+    else:
+        if sys.stdin.isatty() and not args.file:
+            parser.print_help()
+            return 0
+        payload = sys.stdin.buffer.read()
+
+    envelope = notarize_artifact(payload, metadata={}, block_size=args.block_size)
+
+    if args.json:
+        print(json.dumps(envelope, indent=2))
+    else:
+        print(f"Notary Envelope Digest: {envelope['envelope_digest']}")
+        print(f"Payload SHA-256:        {envelope['payload_sha256']}")
+        print(f"RFC 6962 Merkle Root:   {envelope['rfc6962_merkle_root']}")
+        print(f"Payload Size:           {envelope['payload_bytes']} bytes ({envelope['chunk_count']} chunks)")
+        print(f"Notarized At:           {envelope['notarized_at']}")
+
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -52,14 +52,14 @@
       "status": "PUBLISHED_LIVE",
       "discreet_summary": "Zero-dependency RFC 6962 Merkle audit tree, SHA-256 media notary, and EXIF orientation/GPS privacy normalizer.",
       "agent_magic_summary": "Encodes full C2PA-compatible cryptographic chain-of-custody attestation schemas, EXIF 8-state affine transposition matrices, and MCP tool definitions for autonomous vault ingestion.",
-      "engine_sha256": "2eeeecb92072bbebdc3eb77a394ab4e05518e8d078eb31ff49e2286081622f87",
+      "engine_sha256": "8bd4296346e37bf897d1d3713961370c4cb9aadf4f1ee600428f7249987e20b5",
       "factory_blockchain_verification": {
         "stamp_mode": "SOVEREIGN_TOOL_FACTORY_UMBRELLA_SEAL",
         "issuer_wallet": "0x6498Ab787da69d7e7Fd8A11E00F27F42e197B3DC",
         "factory_contract": "0xB40F51866F1efdBd24A1549827e0A4e55d3005DE",
         "protocol_treasury": "0x58157844e65F6c1D6F3D0DA8ED0a49603b1A7C34",
         "keccak256_tool_id": "0xe0bfa93409387bcc2b0d5656987a5b113b1b1c0673249e209e7ed6b68cf5b6c1",
-        "engine_sha256": "2eeeecb92072bbebdc3eb77a394ab4e05518e8d078eb31ff49e2286081622f87",
+        "engine_sha256": "8bd4296346e37bf897d1d3713961370c4cb9aadf4f1ee600428f7249987e20b5",
         "status": "FACTORY_MERKLE_VERIFIED"
       },
       "rosetta_upgrade_capsule": {

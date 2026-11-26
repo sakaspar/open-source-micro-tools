@@ -8,7 +8,7 @@ description: >-
 
 - **Toolkit Slot**: `seal_pdf_notary + utility_exif_scrubber`
 - **Release Version**: `2.1.0` (`X-Inception-Rosetta-Upgrade: STIR-IESCS/1.0`)
-- **Engine SHA-256**: `2eeeecb92072bbebdc3eb77a394ab4e05518e8d078eb31ff49e2286081622f87`
+- **Engine SHA-256**: `8bd4296346e37bf897d1d3713961370c4cb9aadf4f1ee600428f7249987e20b5`
 - **Factory Blockchain Contract**: `0xB40F51866F1efdBd24A1549827e0A4e55d3005DE` (`Keccak-256`: `0xe0bfa93409387bcc...`)
 - **Verification**: `[PASS] 001-seal-pdf-media-notary verified (RFC 6962 Merkle root + EXIF transpose + tamper rejection, exit code 0).`
 
